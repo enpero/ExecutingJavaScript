@@ -1,0 +1,16 @@
+2021-12-07 21:52:33,801 INFO h.FillingInDataInTheGUI [main] Драйвер поднят
+2021-12-07 21:52:38,808 INFO h.FillingInDataInTheGUI [main] Сайт otus.ru открыт
+2021-12-07 21:52:44,451 INFO h.FillingInDataInTheGUI [main] Успешная авторизация
+2021-12-07 21:52:50,198 INFO h.FillingInDataInTheGUI [main] Вкладка 'О себе' открыта
+2021-12-07 21:53:01,007 INFO h.FillingInDataInTheGUI [main] Заполненные поля очищены
+2021-12-07 21:53:02,436 INFO h.FillingInDataInTheGUI [main] Страна выбрана
+2021-12-07 21:53:10,802 INFO h.FillingInDataInTheGUI [main] Город выбран
+2021-12-07 21:53:10,863 INFO h.FillingInDataInTheGUI [main] Уровень английского языка выбран
+2021-12-07 21:53:10,978 INFO h.FillingInDataInTheGUI [main] Добавлено 2 контакта
+2021-12-07 21:53:15,535 INFO h.FillingInDataInTheGUI [main] Все поле на вкладке 'О себе' заполнены
+2021-12-07 21:53:20,246 INFO h.FillingInDataInTheGUI [main] Заполненные данные - сохранены
+2021-12-07 21:53:32,371 INFO h.FillingInDataInTheGUI [main] Сайт otus.ru открыт
+2021-12-07 21:53:32,373 INFO h.FillingInDataInTheGUI [main] Открыт сайт ОТУС в чистом браузере
+2021-12-07 21:53:37,930 INFO h.FillingInDataInTheGUI [main] Успешная авторизация
+2021-12-07 21:53:42,756 INFO h.FillingInDataInTheGUI [main] Вкладка 'О себе' открыта
+2021-12-07 21:53:43,360 INFO h.FillingInDataInTheGUI [main] Все раннее заполненные данные успешно отображаются
