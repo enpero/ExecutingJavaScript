@@ -12,11 +12,17 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class FillingInDataInTheGUI {
     WebDriver driver;
+
     private final Logger logger = LogManager.getLogger(FillingInDataInTheGUI.class);
 
     String name = CssSelectors.NAME.getValue();
@@ -48,11 +54,11 @@ public class FillingInDataInTheGUI {
     String setPost = "Quality Assurance engineer";
 
     @Before
-    public void StartUp() throws InterruptedException {
+    public void startUp(){
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        sleep(10000);
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
         logger.info("Драйвер поднят");
     }
 
@@ -85,62 +91,61 @@ public class FillingInDataInTheGUI {
     }
 
     @Description("Открытие сайта ОТУС")
-    private void openOTUS() throws InterruptedException {
+    private void openOTUS() {
         driver.get("http://otus.ru");
-        sleep(1000);
         logger.info("Сайт otus.ru открыт");
     }
 
     @Description("Авторизация на сайте ОТУС")
-    private void authorizationInOTUS() {
-        var setLoginAndPassword = "spbbrow@ya.ru";
+    private void authorizationInOTUS() throws InterruptedException {
+        var loginAndPassword = "spbbrow@ya.ru";
         var authorization = CssSelectors.AUTHORIZATION.getValue();
         var email = CssSelectors.EMAIL.getValue();
         var password = CssSelectors.PASSWORD.getValue();
         var enter = CssSelectors.ENTER.getValue();
 
         driver.findElement(By.cssSelector(authorization)).click();
-        driver.findElement(By.cssSelector(email)).sendKeys(setLoginAndPassword);
-        driver.findElement(By.cssSelector(password)).sendKeys(setLoginAndPassword);
+        driver.findElement(By.cssSelector(email)).sendKeys(loginAndPassword);
+        driver.findElement(By.cssSelector(password)).sendKeys(loginAndPassword);
         driver.findElement(By.cssSelector(enter)).submit();
         logger.info("Успешная авторизация");
     }
 
     @Description("Переход на вкладку 'О себе', в личный кабинет")
-    private void enterLK() throws InterruptedException {
-        sleep(1000);
+    private void enterLK(){
+        driver.get("https://otus.ru/lk/biography/personal/");
         driver.get("https://otus.ru/lk/biography/personal/");
         logger.info("Вкладка 'О себе' открыта");
     }
 
     @Description("Очистка полей на вкладке 'О себе'")
-    private void clearingFields() throws InterruptedException {
+    private void clearingFields(){
 
         //Персональные данные
+        driver.manage().timeouts().implicitlyWait(3, SECONDS);
+
         driver.findElement(By.name(name)).clear();
         driver.findElement(By.name(nameLatin)).clear();
         driver.findElement(By.name(surname)).clear();
         driver.findElement(By.name(surnameLatin)).clear();
         driver.findElement(By.name(blogName)).clear();
         driver.findElement(By.name(dateOfBirth)).clear();
-        sleep(1000);
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
 
         /* Основная информация*/
         if (driver.findElement(By.cssSelector(countryLabelRussia)).getText().contains(setCountry)) {
             driver.findElement(By.cssSelector(countryLabelRussia)).click();
             driver.findElement(By.xpath("//*[contains(text(), 'Не указано')]")).click();
         }
-        sleep(4000);
-
+        
         //Другое
         driver.findElement(By.id(company)).clear();
         driver.findElement(By.id(post)).clear();
-        sleep(4000);
         logger.info("Заполненные поля очищены");
     }
 
     @Description("Заполнение полей на вкладке 'О себе'")
-    private void aboutMe() throws InterruptedException {
+    private void aboutMe(){
         setFieldsInPersonalData();
         setMainInformation();
         setContactInformation();
@@ -160,28 +165,27 @@ public class FillingInDataInTheGUI {
     }
 
     @Description("Заполнение блока Основной информации")
-    private void setMainInformation() throws InterruptedException {
+    private void setMainInformation() {
         chooseCountry();
         chooseCity();
         chooseEnglishLevel();
     }
 
     @Description("Выбор страны")
-    private void chooseCountry() throws InterruptedException {
+    private void chooseCountry()  {
         if (!driver.findElement(By.cssSelector(countryLabelRussia)).getText().contains(setCountry)) {
             driver.findElement(By.cssSelector(countryLabelRussia)).click();
             driver.findElement(By.xpath(getRussia)).click();
         }
         logger.info("Страна выбрана");
-        sleep(4000);
+        driver.manage().timeouts().implicitlyWait(20, SECONDS);
     }
 
     @Description("Выбор города")
-    private void chooseCity() throws InterruptedException {
+    private void chooseCity() {
         driver.findElement(By.cssSelector(countryLabelMoscow)).click();
         driver.findElement(By.xpath(getMoscow)).click();
-        sleep(4000);
-
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
         logger.info("Город выбран");
     }
 
@@ -214,27 +218,27 @@ public class FillingInDataInTheGUI {
     }
 
     @Description("Заполнение блока 'Другое'")
-    private void setOther() throws InterruptedException {
+    private void setOther(){
 
         driver.findElement(By.id("id_gender")).click();
-        sleep(4000);
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
         driver.findElement(By.cssSelector("option[value='f']")).click();
         driver.findElement(By.id(company)).sendKeys(setCompany);
         driver.findElement(By.id(post)).sendKeys(setPost);
     }
 
     @Description("Нажать 'Сохранить'")
-    private void saveChanges() throws InterruptedException {
+    private void saveChanges() {
         driver.findElement(By.xpath(saveAndContinue)).click();
-        sleep(2000);
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
         logger.info("Заполненные данные - сохранены");
     }
 
     @Description("Открытие сайта ОТУС в 'чистом' браузере")
-    private void openOTUSInCleanBrowser() throws InterruptedException {
+    private void openOTUSInCleanBrowser(){
         driver.quit();
         driver = new ChromeDriver();
-        sleep(5000);
+        driver.manage().timeouts().implicitlyWait(4, SECONDS);
         openOTUS();
         logger.info("Открыт сайт ОТУС в чистом браузере");
     }
@@ -256,7 +260,7 @@ public class FillingInDataInTheGUI {
     }
 
     @After
-    public void End() {
+    public void end() {
         if (driver != null)
             driver.quit();
     }
