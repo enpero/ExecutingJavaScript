@@ -1,66 +1,13 @@
 package homeWork;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 import jdk.jfr.Description;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
-
-import static java.lang.Thread.sleep;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
-public class FillingInDataInTheGUI {
-    WebDriver driver;
-
-    private final Logger logger = LogManager.getLogger(FillingInDataInTheGUI.class);
-
-    String name = CssSelectors.NAME.getValue();
-    String nameLatin = CssSelectors.NAME_LATIN.getValue();
-    String surname = CssSelectors.SURNAME.getValue();
-    String surnameLatin = CssSelectors.SURNAME_LATIN.getValue();
-    String blogName = CssSelectors.BLOGNAME.getValue();
-    String dateOfBirth = CssSelectors.DATE_OF_BIRTH.getValue();
-    String company = CssSelectors.COMPANY.getValue();
-    String post = CssSelectors.POST.getValue();
-    String countryLabelRussia = CssSelectors.COUNTRY_LABEL_RUSSIA.getValue();
-    String countryLabelMoscow = CssSelectors.COUNTRY_LABEL_MOSCOW.getValue();
-    String englishLevel = CssSelectors.ENGLISH_LEVEL.getValue();
-    String saveAndContinue = CssSelectors.SAVE_AND_CONTINUE.getValue();
-
-    String getRussia = CssSelectors.GET_RUSSIA.getValue();
-    String getMoscow = CssSelectors.GET_MOSCOW.getValue();
-    String getEnglishLevel = CssSelectors.GET_ENGLISH_LEVEL.getValue();
-
-    String setName = "Ekaterina";
-    String setSurname = "Perova";
-    String setDateOfBirth = "26.05.1996";
-
-    String setEnglishLevel = "Начальный уровень (Beginner)";
-    String setCity = "Москва";
-    String setCountry = "Россия";
-
-    String setCompany = "LLC 'INTER RAO-IT'";
-    String setPost = "Quality Assurance engineer";
-
-    @Before
-    public void startUp(){
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(4, SECONDS);
-        logger.info("Драйвер поднят");
-    }
+public class FillingInDataInTheGUI extends BaseClass{
 
     /* Алгоритм действий
         1. Открыть сайт OTUS
@@ -77,7 +24,7 @@ public class FillingInDataInTheGUI {
 
     @Description("Авторизация, заполнение данных, проверка сохраненных данных")
     @Test
-    public void fillingInDataTheGUIAndCheckingTheSaveData() throws InterruptedException {
+    public void fillingInDataTheGUIAndCheckingTheSaveData(){
         openOTUS();
         authorizationInOTUS();
         enterLK();
@@ -97,7 +44,7 @@ public class FillingInDataInTheGUI {
     }
 
     @Description("Авторизация на сайте ОТУС")
-    private void authorizationInOTUS() throws InterruptedException {
+    private void authorizationInOTUS() {
         var loginAndPassword = "spbbrow@ya.ru";
         var authorization = CssSelectors.AUTHORIZATION.getValue();
         var email = CssSelectors.EMAIL.getValue();
@@ -257,11 +204,5 @@ public class FillingInDataInTheGUI {
         Assert.assertEquals(setCompany, driver.findElement(By.id(company)).getAttribute("value"));
         Assert.assertEquals(setPost, driver.findElement(By.id(post)).getAttribute("value"));
         logger.info("Все раннее заполненные данные успешно отображаются");
-    }
-
-    @After
-    public void end() {
-        if (driver != null)
-            driver.quit();
     }
 }
